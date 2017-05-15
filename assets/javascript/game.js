@@ -13,15 +13,14 @@ var correctCount=0;
 var gameComplete=true;
 var validInput=true;
 
-document.getElementById("winsCount").innerHTML= "wins: "+ wins;
-document.getElementById("lossesCount").innerHTML= "losses: "+ losses;
-//get user input
+//listen for user inputs
 document.onkeyup = function(event) {
     userInput = event.key;
-    console.log(validInput);
-    console.log(userInput)
+    //validate input before running game functions.
     validateInput();
+    //if game in progress
     if (gameComplete===false){
+    	//check to see if user input has been guessed in this game.
     	if(validInput){
     		checkLetter();
 	    	//show hidden word to user with any letters that have been guessed correctly.
@@ -29,14 +28,15 @@ document.onkeyup = function(event) {
 	    	showGuesses();
     	}
     }
+    //if game over and user requests new game
     else{
     	gameComplete=false;
     	//set up document with new random word
     	resetDocument();
     }
-    console.log(userGuesses);
 }
 
+//this function resets the document and variables for a fresh game.
 function resetDocument(){
 	correctCount=0;
 	guessesLeft=5;
@@ -87,11 +87,13 @@ function checkLetter(input){
 	isWinner();
 }
 
+//this function checks each user input and compares it will all other elements in the guesses array.
+//if the input has been guessed, prompts user with warning message
 function validateInput(){
 	var matched=0;
 	for (var i=0;i<userGuesses.length;i++){
 		if (userInput ===userGuesses[i]){
-			document.getElementById("gameStatus").innerHTML ="Letter has already been guessed";
+			document.getElementById("gameStatus").innerHTML ="Letter has already been guessed, try a different input";
 			validInput = false;
 			matched=1;
 		}	
@@ -102,6 +104,7 @@ function validateInput(){
 	}
 }
 
+//this function shows whatever letters have been correctly guessed in the mystery word and where they are in the word
 function showHiddenWord(){
 	var hiddenWordString = "";
 	//convert the hidden word array into a string so that the user knows how long the word is and what elements have been guessed correctly.
@@ -111,6 +114,7 @@ function showHiddenWord(){
 	document.getElementById("mysteryWord2").innerHTML = hiddenWordString;
 }
 
+
 function showGuesses(){
 	//display the incorrect guesses made by the user along with the number of guesses remaining
 	var incorrectGuesses=incorrectGuessesArray.join("");
@@ -118,6 +122,7 @@ function showGuesses(){
 	document.getElementById("guessesLeft").innerHTML = "Guesses left: " + guessesLeft;
 }
 
+//this function checks to see if the user has guessed the word correctly or if they are out of guesses before allowing play to continue
 function isWinner(){
 	if(correctCount===newWordArray.length){
 		document.getElementById("isWinner").innerHTML= "Winner!";
