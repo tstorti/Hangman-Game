@@ -135,6 +135,7 @@ function isWinner(){
 		wins++;
 		document.getElementById("winsCount").innerHTML= "wins: "+ wins;
 		document.getElementById("sausagePhoto").src= "assets/images/"+ newWord +".jpg";
+		document.getElementById("winSoundClip").innerHTML="<audio src=\"assets/audio/sausageking.mp3\" autoplay></audio>";
 		gameComplete=true;
 	}
 	else if(guessesLeft===0){
