@@ -1,8 +1,9 @@
 
 
-var wordLibrary=["bratwurst", "hotdog", "knockwurst", "polish", "andouille", "italian", "chorizo"];
+var wordLibrary=["andouille", "bratwurst", "chorizo", "hotdog", "italian", "merguez", "polish", "salami"];
 var userInput = null;
 var userGuesses=[];
+var newWord;
 var newWordArray=[];
 var hiddenWordArray=[];
 var incorrectGuessesArray=[];
@@ -12,6 +13,7 @@ var losses=0;
 var correctCount=0;
 var gameComplete=true;
 var validInput=true;
+
 
 //listen for user inputs
 document.onkeyup = function(event) {
@@ -49,26 +51,30 @@ function resetDocument(){
 	//show the hidden word length to user based on the radom word chosen from the library
 	showHiddenWord();
 	document.getElementById("isWinner").innerHTML= "";
-	document.getElementById("gameStatus").innerHTML ="guess a letter";
+	document.getElementById("gameStatus").innerHTML ="Guess a letter";
 	document.getElementById("lastGuess").innerHTML= "";
+	document.getElementById("sausagePhoto").src= "assets/images/sausages-default.jpg";
 }
 
 function randomWord(arrayLength){
 	//calculate a random index of the wordLibrary to identify a random word for the game
 	var randomIndex = Math.floor(Math.random()*arrayLength);
-	var newWord = wordLibrary[randomIndex];
+	newWord = wordLibrary[randomIndex];
 	newWordArray = newWord.split("");
-	document.getElementById("mysteryWord").innerHTML = "mystery word is: " + wordLibrary[randomIndex];
+	//document.getElementById("mysteryWord").innerHTML = "mystery word is: " + wordLibrary[randomIndex];
 	//initialize a "hidden word" array with "-" values as placeholders
 	//"-" values will be replaced as the user begins to make correct guesses
 	for (var i=0;i<newWordArray.length;i++){
-		hiddenWordArray.push("-");
+		hiddenWordArray.push("_");
 	}
 }
 
 function checkLetter(input){
+
 	var matched=0;
 	userGuesses.push(userInput);
+	
+
 	//check user input value against all the elements in the mystery word.
 	for (var i=0;i<newWordArray.length;i++){
 		if (userInput===newWordArray[i]){
@@ -84,23 +90,22 @@ function checkLetter(input){
 		incorrectGuessesArray.push(userInput + " ");
 		guessesLeft--;
 	}
+	//after updating the mystery word and/or guess count, determine if user is a winner
 	isWinner();
 }
 
 //this function checks each user input and compares it will all other elements in the guesses array.
 //if the input has been guessed, prompts user with warning message
 function validateInput(){
-	var matched=0;
-	for (var i=0;i<userGuesses.length;i++){
-		if (userInput ===userGuesses[i]){
-			document.getElementById("gameStatus").innerHTML ="Letter has already been guessed, try a different input";
-			validInput = false;
-			matched=1;
-		}	
-	}
-	if (matched===0){
+	//if input has not been entered.
+	if (userGuesses.indexOf(userInput) === -1){
 		validInput=true;
-		document.getElementById("gameStatus").innerHTML ="";
+		document.getElementById("gameStatus").innerHTML ="Guess a Letter";
+	}
+	//if input has already been guessed during the game.
+	else{
+		document.getElementById("gameStatus").innerHTML ="Letter has already been guessed, try a different input";
+		validInput = false;
 	}
 }
 
@@ -128,7 +133,8 @@ function isWinner(){
 		document.getElementById("isWinner").innerHTML= "Winner!";
 		document.getElementById("gameStatus").innerHTML ="Press any key to play again";
 		wins++;
-		document.getElementById("winsCount").innerHTML= "wins: "+ wins;;
+		document.getElementById("winsCount").innerHTML= "wins: "+ wins;
+		document.getElementById("sausagePhoto").src= "assets/images/"+ newWord +".jpg";
 		gameComplete=true;
 	}
 	else if(guessesLeft===0){

@@ -1,24 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Sausage Hangman</title>
-	<!--reset stylesheet courtesy of meyerweb.com-->
-	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sausage Hangman</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
+    <!--Add Bootstrap from CDN-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Add Bootstrap theme from Bootswatch-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/darkly/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
 </head>
 <body>
-	<h1>Hangman Game</h1>
-	<h2 id="gameStatus">Press any key to play!</h2>
-	<div id="lastGuess"></div>
-	<div id="mysteryWord"></div>
-	<div id="mysteryWord2"></div>
-	<div id="guesses"></div>
-	<div id="guessesLeft"></div>
-	<h2 id="isWinner"></h2>
-	<h2 id="winsCount">Wins: 0</h2>
-	<h2 id="lossesCount">Losses: 0</h2>
+	
+
+	<div class="container">
+        <div class="page-header">
+            <h2>Sausage Hangman</h2>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
+                        <img class="img-thumbnail sausagePic" id="sausagePhoto" src="assets/images/sausages-default.jpg" alt="sausage aphoto">
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
+                        
+                        <h3 id="isWinner"></h3>
+                        <h4 id="winsCount">Wins: 0</h4>
+                        <h4 id="lossesCount">Losses: 0</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" id="gameStatus">Press any key to play!</h3>
+                    </div>
+                    <div class="panel-body" >
+                        <!--<div id="mysteryWord"></div>-->
+                        <div class="mysteryWord" id="mysteryWord2"></div>
+                        <div id="guesses">Incorrect Guesses:</div>
+						<div id="guessesLeft">Guesses Left:</div>
+						<div id="lastGuess">Last Guess:</div>
+						
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 	<script type="text/javascript" src="assets/javascript/game.js"></script>
 </body>
 </html>
