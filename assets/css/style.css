@@ -1,5 +1,18 @@
-.mysteryWord{
+.gameWord{
 	color:black;
 	font-weight: bold;
 	font-size: 28px;
+}
+.sausageFont{
+	font-family: SausageFont;
+	font-size:72px;
+	text-align: center;
+}
+
+/*font courtesy of 1001Fonts Free */
+@font-face {
+  font-family: 'SausageFont';
+  src: url('fonts/Alpha Sausage.ttf');
+  src: url('fonts/alpha_sausage.woff');
+  src: url('fonts/alpha_sausage.woff2');
 }
