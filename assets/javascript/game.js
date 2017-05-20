@@ -1,52 +1,32 @@
 
 
 var game = {
-	wordLibrary: ["andouille", "bratwurst", "chorizo", "hotdog", "italian", "merguez", "polish", "salami"],
-	userInput: null,
-	userGuesses: [],
-	gameWord: null, 
-	gameWordArray: [],
-	hiddenWordArray: [],
-	incorrectGuessesArray: [],
-	guessesLeft: 6,
-	wins: 0,
-	losses: 0,
+	
+	//counts number of correct guesses to determine if user has solved game
 	correctCount: 0,
+	//status for knowing if user input is starting a game or guessing letters
 	gameComplete: true,
+	//word for new game of hangman
+	gameWord: null, 
+	//gameWord broken into array
+	gameWordArray: [],
+	//number of incorrect guesses allowed, standard hangman rules = 6
+	guessesLeft: 6,
+	//array of all letters in gameWord that haven't been guessed
+	hiddenWordArray: [],
+	//array of all incorrect guesses
+	incorrectGuessesArray: [],
+	losses: 0,
+	//most recent user input
+	userInput: null,
+	//array of all unique user guesses
+	userGuesses: [],
+	//boolean determines if user input is valid
 	validInput: true, 
-
-	//this function resets the document with a new word and prompts the user to guess a new word. Note that the function will not affect the wins, losses count	
-	resetDocument: function(){
-		this.correctCount=0;
-		this.guessesLeft=6;
-		this.hiddenWordArray.length=0;
-		this.userGuesses.length=0;
-		this.incorrectGuessesArray.length=0;
-		document.getElementById("gameWord").innerHTML = "";
-		//get random word from the library and initialize gameWordArray, hiddenWordArray
-		this.randomWord(this.wordLibrary.length);
-		//show the hidden word length to user based on the radom word chosen from the library
-		this.showHiddenWord();
-		//reset document HTML elements to clear old game output
-		document.getElementById("isWinner").innerHTML= "";
-		document.getElementById("gameStatus").innerHTML ="Guess a letter";
-		document.getElementById("lastGuess").innerHTML= "Last Guess: ";
-		document.getElementById("sausagePhoto").src= "assets/images/sausages-default.jpg";
-	},
-
-	//this function pulls a random word from the word library.  The wordLibrary array length is left as a function argument so addional words can be added flexibly. Note images for new words would need to be added to the library to prevent errors in isWinner function
-	randomWord: function(arrayLength){
-		//calculate a random index of the wordLibrary to identify a random word for the game
-		var randomIndex = Math.floor(Math.random()*arrayLength);
-		this.gameWord = this.wordLibrary[randomIndex];
-		//initialize array with new word so guesses can be checked against each letter
-		this.gameWordArray = this.gameWord.split("");
-		//initialize a "hidden word" array with "-" values as placeholders
-		//"-" values will be replaced as the user begins to make correct guesses
-		for (var i=0;i<this.gameWordArray.length;i++){
-			this.hiddenWordArray.push("_");
-		}
-	},
+	//win counter for all games during browser section
+	wins: 0,
+	wordLibrary: ["andouille", "bratwurst", "chorizo", "hotdog", "italian", "merguez", "polish", "salami"],
+	
 
 	//this function checks new user guesses against the current gameword
 	checkLetter: function(){
@@ -75,38 +55,6 @@ var game = {
 		this.isWinner();
 	},
 
-	//this function checks each user input and compares it will all other elements in the guesses array. if the input has been guessed, prompts user with warning message
-	validateInput: function(){
-		//if input has not yet been guessed by user, set validInput to true and change game status message
-		if (this.userGuesses.indexOf(this.userInput) === -1){
-			this.validInput=true;
-			document.getElementById("gameStatus").innerHTML ="Guess a Letter";
-		}
-		//if input has already been guessed during the game prompt user to try another input
-		else{
-			document.getElementById("gameStatus").innerHTML ="Letter has already been guessed, try a different input";
-			this.validInput = false;
-		}
-	},
-
-	//this function shows whatever letters have been correctly guessed in the game word and where they are in the word
-	showHiddenWord: function(){
-		var hiddenWordString = "";
-		//convert the game word array into a string for display
-		//user needs to see how long the word is and what elements have been guessed correctly.
-		for (var i=0;i<this.hiddenWordArray.length;i++){
-			hiddenWordString += this.hiddenWordArray[i]+ " ";
-		}
-		document.getElementById("gameWord").innerHTML = hiddenWordString;
-	},
-
-	showGuesses: function(){
-		//display the incorrect guesses made by the user along with the number of guesses remaining
-		var incorrectGuesses=this.incorrectGuessesArray.join("");
-		document.getElementById("guesses").innerHTML = "Incorrect guesses: " + incorrectGuesses +" ";
-		document.getElementById("guessesLeft").innerHTML = "Guesses left: " + this.guessesLeft;
-	},
-
 	//this function checks to see if the user has guessed the word correctly or if they are out of guesses before allowing play to continue
 	isWinner: function(){
 		//if correct guesses count matches gameWord length, then user is a winner.  update html for new game prompt and add to wins variable.
@@ -130,6 +78,71 @@ var game = {
 		//if user still has guesses and has not correctly identified word
 		else{
 		    document.getElementById("lastGuess").innerHTML = "Last Guess: " + this.userInput;
+		}
+	},
+
+	//this function pulls a random word from the word library.  The wordLibrary array length is left as a function argument so addional words can be added flexibly. Note images for new words would need to be added to the library to prevent errors in isWinner function
+	randomWord: function(arrayLength){
+		//calculate a random index of the wordLibrary to identify a random word for the game
+		var randomIndex = Math.floor(Math.random()*arrayLength);
+		this.gameWord = this.wordLibrary[randomIndex];
+		//initialize array with new word so guesses can be checked against each letter
+		this.gameWordArray = this.gameWord.split("");
+		//initialize a "hidden word" array with "-" values as placeholders
+		//"-" values will be replaced as the user begins to make correct guesses
+		for (var i=0;i<this.gameWordArray.length;i++){
+			this.hiddenWordArray.push("_");
+		}
+	},
+
+	//this function resets the document with a new word and prompts the user to guess a new word. Note that the function will not affect the wins, losses count	
+	resetDocument: function(){
+		this.correctCount=0;
+		this.guessesLeft=6;
+		this.hiddenWordArray.length=0;
+		this.userGuesses.length=0;
+		this.incorrectGuessesArray.length=0;
+		document.getElementById("gameWord").innerHTML = "";
+		//get random word from the library and initialize gameWordArray, hiddenWordArray
+		this.randomWord(this.wordLibrary.length);
+		//show the hidden word length to user based on the radom word chosen from the library
+		this.showHiddenWord();
+		//reset document HTML elements to clear old game output
+		document.getElementById("isWinner").innerHTML= "";
+		document.getElementById("gameStatus").innerHTML ="Guess a letter";
+		document.getElementById("lastGuess").innerHTML= "Last Guess: ";
+		document.getElementById("sausagePhoto").src= "assets/images/sausages-default.jpg";
+	},
+
+	//this function shows whatever letters have been correctly guessed in the game word and where they are in the word
+	showHiddenWord: function(){
+		var hiddenWordString = "";
+		//convert the game word array into a string for display
+		//user needs to see how long the word is and what elements have been guessed correctly.
+		for (var i=0;i<this.hiddenWordArray.length;i++){
+			hiddenWordString += this.hiddenWordArray[i]+ " ";
+		}
+		document.getElementById("gameWord").innerHTML = hiddenWordString;
+	},
+
+	showGuesses: function(){
+		//display the incorrect guesses made by the user along with the number of guesses remaining
+		var incorrectGuesses=this.incorrectGuessesArray.join("");
+		document.getElementById("guesses").innerHTML = "Incorrect guesses: " + incorrectGuesses +" ";
+		document.getElementById("guessesLeft").innerHTML = "Guesses left: " + this.guessesLeft;
+	},
+
+	//this function checks each user input and compares it will all other elements in the guesses array. if the input has been guessed, prompts user with warning message
+	validateInput: function(){
+		//if input has not yet been guessed by user, set validInput to true and change game status message
+		if (this.userGuesses.indexOf(this.userInput) === -1){
+			this.validInput=true;
+			document.getElementById("gameStatus").innerHTML ="Guess a Letter";
+		}
+		//if input has already been guessed during the game prompt user to try another input
+		else{
+			document.getElementById("gameStatus").innerHTML ="Letter has already been guessed, try a different input";
+			this.validInput = false;
 		}
 	}
 
